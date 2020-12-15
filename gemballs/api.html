@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API documentaiton &#8212; gemballs 0.3.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-gemballs">
+<span id="api-documentaiton"></span><h1>API documentaiton<a class="headerlink" href="#module-gemballs" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="gemballs.GEMBallsClassifier">
+<em class="property">class </em><code class="sig-prename descclassname">gemballs.</code><code class="sig-name descname">GEMBallsClassifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">c0</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">c1</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">algorithm</span><span class="o">=</span><span class="default_value">'kd_tree'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class implement the GEM-balls classifier.</p>
+<p>For further details about this classifier: <a class="reference external" href="http://www.algocare.it/L-CSL2018GEM.pdf">http://www.algocare.it/L-CSL2018GEM.pdf</a></p>
+<dl class="simple">
+<dt>c0<span class="classifier">int, default=1</span></dt><dd><p>During the construction of the model, the radius of spheres computed for points belonging to class 1 is the
+distance between the center and c0-nearest neighbor point belonging to class 0.</p>
+</dd>
+<dt>c1<span class="classifier">int, default=1</span></dt><dd><p>During the construction of the model, the radius of spheres computed for points belonging to class 0 is the
+distance between the center and c1-nearest neighbor point belonging to class 1.</p>
+</dd>
+<dt>algorithm<span class="classifier">{‘kd_tree’, ‘brute’}, default=’kd_tree’</span></dt><dd><p>The name of the algorithm to compute the classifier.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>c<span class="classifier">list of length 2</span></dt><dd><p>The list [c0, c1] with the given c0 and c1.</p>
+</dd>
+<dt>k<span class="classifier">list of length 2</span></dt><dd><p>The list [k0, k1] with k0 and k1 respectively the support lengths for the classes 0 and 1.
+For the definition of support refer to the paper.</p>
+</dd>
+<dt>n<span class="classifier">list of length 2</span></dt><dd><p>The list [n0, n1] with n0 and n1 respectively the number of points in the training set belonging to classes 0
+and 1.</p>
+</dd>
+<dt>classifier<span class="classifier">list of Ball</span></dt><dd><p>List of Ball objects forming the classifier.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="gemballs.GEMBallsClassifier.fit">
+<em class="property">abstract </em><code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">first</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method compute the model for the given data using the specified algorithm in the constructor.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>The data of the training set.</p>
+</dd>
+<dt>y<span class="classifier">array-like of shape (n_queries,)</span></dt><dd><p>The classes associated to x.</p>
+</dd>
+<dt>first<span class="classifier">int, default=0</span></dt><dd><p>The index of the starting point for the construction of the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="gemballs.GEMBallsClassifier.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the class label for each target in x.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>Target samples.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>y<span class="classifier">array of shape (n_queries,)</span></dt><dd><p>Predicted class labels for each given target sample.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gemballs</span> <span class="kn">import</span> <span class="n">GEMBallsClassifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_circles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span>                  <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span> <span class="o">=</span> <span class="n">GEMBallsClassifier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predicted_classes</span> <span class="o">=</span> <span class="n">gemballs</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="gemballs.GEMBallsClassifier.predict_proba">
+<code class="sig-name descname">predict_proba</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsClassifier.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the probabilities of belonging to the classes for each target in x.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>Target samples.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>y<span class="classifier">array of shape (n_queries, 2)</span></dt><dd><p>Estimated probabilities of belonging to class 0 and class 1 respectively for each given target sample.</p>
+</dd>
+</dl>
+<p>This implementation of GEM-balls doesn’t compute probabilities.
+This method assign probability of 1 to the predicted class and 0 the the other.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gemballs</span> <span class="kn">import</span> <span class="n">GEMBallsClassifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_circles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span>                  <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span> <span class="o">=</span> <span class="n">GEMBallsClassifier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">estimated_probabilities</span> <span class="o">=</span> <span class="n">gemballs</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">estimated_probabilities</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(60, 2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="gemballs.GEMBallsClassifier.score">
+<code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsClassifier.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the accuracy score of the given test data and labels.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>Test samples.</p>
+</dd>
+<dt>y<span class="classifier">array-like of shape (n_queries,)</span></dt><dd><p>True class of x.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>score<span class="classifier">float</span></dt><dd><p>The accuracy of the predicted labels of x with respect to y.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gemballs</span> <span class="kn">import</span> <span class="n">GEMBallsClassifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_circles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span>                  <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span> <span class="o">=</span> <span class="n">GEMBallsClassifier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy</span> <span class="o">=</span> <span class="n">gemballs</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy</span>
+<span class="go">0.8</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="gemballs.GEMBallsPollingClassifier">
+<em class="property">class </em><code class="sig-prename descclassname">gemballs.</code><code class="sig-name descname">GEMBallsPollingClassifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">c0</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">c1</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_classifiers</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">algorithm</span><span class="o">=</span><span class="default_value">'kd_tree'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsPollingClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class implement the polling version of GEM-balls classifier.</p>
+<dl class="simple">
+<dt>c0<span class="classifier">int, default=1</span></dt><dd><p>During the construction of a model, the radius of spheres computed for points belonging to class 1 is the
+distance between the center and c0-nearest neighbor point belonging to class 0.</p>
+</dd>
+<dt>c1<span class="classifier">int, default=1</span></dt><dd><p>During the construction of a model, the radius of spheres computed for points belonging to class 0 is the
+distance between the center and c1-nearest neighbor point belonging to class 1.</p>
+</dd>
+<dt>max_classifiers<span class="classifier">int, default=inf</span></dt><dd><p>Upper bound of the number of classifiers to train.</p>
+</dd>
+<dt>algorithm<span class="classifier">{‘kd_tree’, ‘brute’}, default=’kd_tree’</span></dt><dd><p>The name of the algorithm to compute classifiers.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>c<span class="classifier">list of length 2</span></dt><dd><p>The list [c0, c1] with the given c0 and c1.</p>
+</dd>
+<dt>classifiers<span class="classifier">list of GEMBallsClassifier</span></dt><dd><p>List of the trained classifiers.</p>
+</dd>
+<dt>max_classifiers<span class="classifier">int</span></dt><dd><p>The given parameter max_classifiers.</p>
+</dd>
+<dt>algorithm<span class="classifier">str</span></dt><dd><p>The given name of the algorithm to use to compute classifiers.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="gemballs.GEMBallsPollingClassifier.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">num_of_threads</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsPollingClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method trains many models, at most as many specified in the constructor parameter max_classifiers.
+The models are trained using the algorithm specified in the constructor parameter.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>The data of the training set.</p>
+</dd>
+<dt>y<span class="classifier">array-like of shape (n_queries,)</span></dt><dd><p>The classes associated to x.</p>
+</dd>
+<dt>num_of_threads<span class="classifier">int, default=1</span></dt><dd><p>Number of thread to use.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="gemballs.GEMBallsPollingClassifier.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">f</span><span class="o">=</span><span class="default_value">lambda k_tot, dim_plus_one: ...</span></em>, <em class="sig-param"><span class="n">perc</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">num_of_threads</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsPollingClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict class labels for the provided data.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>Target samples.</p>
+</dd>
+<dt>f<span class="classifier">lambda function, default=lambda k_tot, dim_plus_one: dim_plus_one - k_tot</span></dt><dd><p>Function that compute polling weights of different classifiers</p>
+</dd>
+<dt>perc<span class="classifier">float, default=1</span></dt><dd><p>Percentage of classifier to take into account for the prediction.</p>
+</dd>
+<dt>num_of_threads<span class="classifier">int, default=1</span></dt><dd><p>Number of thread to use.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>y<span class="classifier">array of shape (n_queries,)</span></dt><dd><p>Predicted class labels for each data sample.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gemballs</span> <span class="kn">import</span> <span class="n">GEMBallsPollingClassifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_circles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span>                 <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span> <span class="o">=</span> <span class="n">GEMBallsPollingClassifier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="go">[1 0 1 0 1 1 0 0 1 0 1 0]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="gemballs.GEMBallsPollingClassifier.predict_proba">
+<code class="sig-name descname">predict_proba</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">f</span><span class="o">=</span><span class="default_value">lambda k_tot, dim_plus_one: ...</span></em>, <em class="sig-param"><span class="n">perc</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">num_of_threads</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsPollingClassifier.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the probabilities of belonging to the classes for each target in x.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>Target samples.</p>
+</dd>
+<dt>f<span class="classifier">lambda function, default=lambda k_tot, dim_plus_one: dim_plus_one - k_tot</span></dt><dd><p>Function that compute polling weights of different classifiers</p>
+</dd>
+<dt>perc<span class="classifier">float, default=1</span></dt><dd><p>Percentage of classifier to take into account for the prediction.</p>
+</dd>
+<dt>num_of_threads<span class="classifier">int, default=1</span></dt><dd><p>Number of thread to use.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>y<span class="classifier">array of shape (n_queries, 2)</span></dt><dd><p>Estimated probabilities of belonging to class 0 and class 1 respectively for each given target sample.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gemballs</span> <span class="kn">import</span> <span class="n">GEMBallsPollingClassifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_circles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span>                 <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span> <span class="o">=</span> <span class="n">GEMBallsPollingClassifier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="go">[[0.90909091 0.09090909]</span>
+<span class="go">[0.90909091 0.09090909]</span>
+<span class="go">[0.03896104 0.96103896]</span>
+<span class="go">[0.62337662 0.37662338]</span>
+<span class="go">[0.22077922 0.77922078]</span>
+<span class="go">[0.90909091 0.09090909]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="gemballs.GEMBallsPollingClassifier.score">
+<code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">f</span><span class="o">=</span><span class="default_value">lambda k_tot, dim_plus_one: ...</span></em>, <em class="sig-param"><span class="n">perc</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">num_of_threads</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#gemballs.GEMBallsPollingClassifier.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the accuracy score of the given test data and labels.</p>
+<dl class="simple">
+<dt>x<span class="classifier">array-like of shape (n_queries, n_features)</span></dt><dd><p>Test samples.</p>
+</dd>
+<dt>y<span class="classifier">array-like of shape (n_queries,)</span></dt><dd><p>True class of x.</p>
+</dd>
+<dt>f<span class="classifier">lambda function, default=lambda k_tot, dim_plus_one: dim_plus_one - k_tot</span></dt><dd><p>Function that compute polling weights of different classifiers</p>
+</dd>
+<dt>perc<span class="classifier">float, default=1</span></dt><dd><p>Percentage of classifier to take into account for the prediction.</p>
+</dd>
+<dt>num_of_threads<span class="classifier">int, default=1</span></dt><dd><p>Number of thread to use.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>score<span class="classifier">float</span></dt><dd><p>The accuracy of the predicted labels of x with respect to y.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gemballs</span> <span class="kn">import</span> <span class="n">GEMBallsPollingClassifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_circles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">666</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span>                 <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span> <span class="o">=</span> <span class="n">GEMBallsPollingClassifier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gemballs</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="go">0.8</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">gemballs</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Omar Younis.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
